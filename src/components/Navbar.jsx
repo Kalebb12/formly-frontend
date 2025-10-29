@@ -1,13 +1,14 @@
+import { Menu } from "lucide-react";
 import { Link } from "react-router";
 
 const Navbar = () => {
   return (
-    <div className="flex items-center justify-between py-3 max-w-[1200px] mx-auto">
+    <div className="flex items-center justify-between px-2 py-3 max-w-[1200px] mx-auto">
       <h2 className="font-medium text-2xl first-letter:font-semibold first-letter:text-3xl">
         <Link to="/">Formly</Link>
       </h2>
 
-      <div className="flex items-center gap-5">
+      <div className="items-center gap-5 md:flex hidden">
         <Link to="#">Pricing</Link>
         <Link to="#">Features</Link>
         <Link to="#">Carrers</Link>
@@ -17,6 +18,10 @@ const Navbar = () => {
         <button className="px-3 py-1 shadow-sm h-9 rounded-md bg-foreground text-background">
           Sign up
         </button>
+      </div>
+
+      <div className="md:hidden inline-flex">
+        <Menu className="text-foreground"/>
       </div>
     </div>
   );

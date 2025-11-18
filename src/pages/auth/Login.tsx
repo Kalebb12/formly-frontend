@@ -1,33 +1,42 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { useAuthStore } from "@/store/auth.store";
+import { useMutation } from "@tanstack/react-query";
+import { loginFn } from "@/api/auth";
+import { toast } from "sonner";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [searchParams] = useSearchParams()
-  const path = searchParams.get("redirect")
+  const [searchParams] = useSearchParams();
+  const path = searchParams.get("redirect");
 
-  const [login,loggingIN] = useAuthStore(state => [ state.login, state.loggingIn])
   interface LoginFormInputs {
     email: string;
     password: string;
   }
+
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: LoginFormInputs) => loginFn(data),
+    mutationKey: ["login"],
+    onSuccess: () => {
+      toast.success("Login successful");
+      navigate(path || "/");
+    },
+    onError: (e) => {
+      toast.error(e.message);
+    },
+  });
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
-    try {
-      await login(data)
-      navigate(path || "/")
-    } catch (error) {
-      console.error("Error:",error)
-    };
+    mutate(data);
   };
   return (
     <div className="mx-auto self-center bg-background px-4">
@@ -124,9 +133,9 @@ const Login = () => {
           <motion.button
             type="submit"
             className="w-full py-2 rounded-lg bg-primary text-primary-foreground font-medium disabled:opacity-60"
-            disabled={loggingIN}
+            disabled={isPending}
           >
-            {loggingIN ? "Signing in..." : "Sign in"}
+            {isPending ? "Signing in..." : "Sign in"}
           </motion.button>
         </form>
 

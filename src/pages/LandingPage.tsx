@@ -11,6 +11,7 @@ import {
   Sparkles
 } from "lucide-react";
 
+
 const LandingPage = () => {
   return (
     <div>

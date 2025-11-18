@@ -2,6 +2,10 @@ import { motion } from "framer-motion";
 import { User, Mail, Lock } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import { useMutation } from "@tanstack/react-query";
+import type { registerField } from "@/types/auth.types";
+import { registerFn } from "@/api/auth";
+import { toast } from "sonner";
 
 const Register = () => {
   interface RegisterFormInputs {
@@ -11,6 +15,17 @@ const Register = () => {
     passwordConfirmation: string;
   }
   const navigate = useNavigate();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: registerField) => registerFn(data),
+    onSuccess: () => {
+      toast.success("login successful");
+      navigate("/auth/login");
+    },
+    onError: (e) => {
+      toast.error(e.message);
+    },
+  });
   const {
     register,
     handleSubmit,
@@ -18,7 +33,7 @@ const Register = () => {
     formState: { errors },
   } = useForm<RegisterFormInputs>();
   const onSubmit: SubmitHandler<RegisterFormInputs> = (data) => {
-    console.log(data);
+    mutate(data);
   };
 
   return (
@@ -79,7 +94,7 @@ const Register = () => {
               <input
                 type="email"
                 {...register("email", {
-                  required: {value:true,message: "Please enter your email"},
+                  required: { value: true, message: "Please enter your email" },
                   pattern: {
                     value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
                     message: "Please enter a valid email",
@@ -106,7 +121,10 @@ const Register = () => {
               <input
                 type="password"
                 {...register("password", {
-                   required: {value:true,message: "Please confirm your password"},
+                  required: {
+                    value: true,
+                    message: "Please confirm your password",
+                  },
                   minLength: { value: 6, message: "Password too short" },
                   maxLength: { value: 20, message: "Password too long" },
                 })}
@@ -131,10 +149,14 @@ const Register = () => {
               <input
                 type="password"
                 {...register("passwordConfirmation", {
-                  required: {value:true,message: "Please confirm your password"},
+                  required: {
+                    value: true,
+                    message: "Please confirm your password",
+                  },
                   minLength: { value: 6, message: "Password too short" },
                   maxLength: { value: 20, message: "Password too long" },
-                  validate: (v) => v === watch("password") || "Passwords do not match",
+                  validate: (v) =>
+                    v === watch("password") || "Passwords do not match",
                 })}
                 placeholder="Confirm password"
                 className="w-full pl-10 pr-3 py-2 rounded-lg bg-input text-foreground border border-border focus:outline-none focus:ring-2 focus:ring-ring"
@@ -154,9 +176,9 @@ const Register = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             className="w-full py-2 rounded-lg bg-primary text-primary-foreground font-medium disabled:opacity-60"
-            disabled={false}
+            disabled={isPending}
           >
-            {false ? "Creating account..." : "Create account"}
+            {isPending ? "Creating account..." : "Create account"}
           </motion.button>
         </form>
 

@@ -1,9 +1,9 @@
-import { useAuthStore } from "@/store/auth.store";
+import { useFetchUser } from "@/hooks/useFetchUser";
 import type { JSX } from "react";
 import { Navigate } from "react-router";
 
 const RedirectIfAuthenticated = ({ children }: { children: JSX.Element }) => {
-  const { user, isPending } = useAuthStore();
+  const {user, isPending } = useFetchUser();
 
   if (isPending) {
     return <div>Loading...</div>;
@@ -13,7 +13,6 @@ const RedirectIfAuthenticated = ({ children }: { children: JSX.Element }) => {
   if (user) {
     return <Navigate to="/" replace />;
   }
-  console.log("working")
   return children;
 };
 

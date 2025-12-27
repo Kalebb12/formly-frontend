@@ -6,10 +6,16 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import RedirectIfAuthenticated from "./utils/RedirectIfAuthenticated";
-import { useFetchUser } from "./hooks/useFetchUser";
+import { useEffect } from "react";
+import { getMe } from "./store/authActions";
+import { useAppDispatch } from "./store/hooks";
 
 const App = () => {
-  useFetchUser();
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    dispatch(getMe());
+  }, [dispatch]);
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       <Navbar />

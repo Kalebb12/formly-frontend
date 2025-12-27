@@ -1,41 +1,45 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock } from "lucide-react";
-import { Link, useNavigate, useSearchParams } from "react-router";
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { Link } from "react-router";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { useAppDispatch } from "@/store/hooks";
 import { useMutation } from "@tanstack/react-query";
 import { loginFn } from "@/api/auth";
-import { toast } from "sonner";
+import type { authField } from "@/types/auth.types";
+import { setUser } from "@/store/authSlice";
+import type { AxiosError } from "axios";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [searchParams] = useSearchParams();
-  const path = searchParams.get("redirect");
 
-  interface LoginFormInputs {
+  const dispatch = useAppDispatch();
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (data: authField) => loginFn(data),
+    onSuccess: (res) => {
+      dispatch(setUser(res.data.user));
+      toast.success("Login successful");
+    },
+    onError: (e: AxiosError<{ message: string }>) => {
+      console.log(e);
+      toast.error(e.response?.data?.message || "something went wrong");
+    },
+  });
+
+  type LoginFormInputs = {
     email: string;
     password: string;
-  }
+  };
 
-  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormInputs>();
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (data: LoginFormInputs) => loginFn(data),
-    mutationKey: ["login"],
-    onSuccess: () => {
-      toast.success("Login successful");
-      navigate(path || "/");
-    },
-    onError: (e) => {
-      toast.error(e.message);
-    },
-  });
-  const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+  const onSubmit = async (data: authField) => {
     mutate(data);
   };
   return (

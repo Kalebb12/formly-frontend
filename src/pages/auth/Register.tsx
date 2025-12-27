@@ -1,29 +1,33 @@
 import { motion } from "framer-motion";
 import { User, Mail, Lock } from "lucide-react";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
 import type { registerField } from "@/types/auth.types";
 import { registerFn } from "@/api/auth";
 import { toast } from "sonner";
+import { useAppDispatch } from "@/store/hooks";
+import { setUser } from "@/store/authSlice";
+import type { AxiosError } from "axios";
 
 const Register = () => {
-  interface RegisterFormInputs {
+  type RegisterFormInputs = {
     name: string;
     email: string;
     password: string;
     passwordConfirmation: string;
   }
-  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (data: registerField) => registerFn(data),
-    onSuccess: () => {
+    onSuccess: (res) => {
       toast.success("login successful");
-      navigate("/auth/login");
+      dispatch(setUser(res.data.user));
     },
-    onError: (e) => {
-      toast.error(e.message);
+    onError: (e : AxiosError<{ message: string }>) => {
+      toast.error(e.response?.data?.message || "something went wrong");
     },
   });
   const {

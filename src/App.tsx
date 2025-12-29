@@ -9,6 +9,7 @@ import RedirectIfAuthenticated from "./utils/RedirectIfAuthenticated";
 import { useEffect } from "react";
 import { getMe } from "./store/authActions";
 import { useAppDispatch } from "./store/hooks";
+import CreateForm from "./pages/CreateForm";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -43,6 +44,14 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <Forms />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/create-form"
+            element={
+              <ProtectedRoute>
+                <CreateForm />
               </ProtectedRoute>
             }
           />

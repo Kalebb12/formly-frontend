@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import { getMe } from "./store/authActions";
 import { useAppDispatch } from "./store/hooks";
 import CreateForm from "./pages/CreateForm";
+import EditForm from "./pages/EditForm";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -48,10 +49,10 @@ const App = () => {
             }
           />
           <Route
-            path="/create-form"
+            path="/form/:id"
             element={
               <ProtectedRoute>
-                <CreateForm />
+                <EditForm />
               </ProtectedRoute>
             }
           />

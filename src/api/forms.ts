@@ -14,3 +14,12 @@ export const createForm = async ({ title, description }: Pick<FormType, 'title' 
     throw new Error(error.response?.data?.message || "something went wrong")
   }
 }
+
+export const getFormById = async (id: string): Promise<FormType> => {
+  try {
+    const res: AxiosResponse<FormType> = await api.get(`/api/form/${id}`)
+    return res.data
+  } catch (error: AxiosError<{ message: string }> | any) {
+    throw new Error(error.response?.data?.message || "something went wrong")
+  }
+}

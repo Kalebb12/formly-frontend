@@ -18,11 +18,16 @@ export type FormType = {
   createdAt: Date;
 }
 
+interface FieldOption {
+  id: string;
+  value: string;
+}
+
 export type FieldType = {
   name: string;
   label: string;
   fieldType: string;
-  options: string[];
+  options: FieldOption[];
   required: boolean;
   placeholder: string;
 };

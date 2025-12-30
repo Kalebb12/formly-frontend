@@ -1,3 +1,4 @@
+import AddFieldDialogue from "@/components/AddFieldDialogue";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -53,50 +54,7 @@ const CreateForm = () => {
       return { ...prev, fields };
     });
   };
-  interface OptionsEditorProps {
-    options: string[];
-    onChange: (options: string[]) => void;
-  }
-
-  function OptionsEditor({ options, onChange }: OptionsEditorProps) {
-    const addOption = () => {
-      onChange([...options, ""]);
-    };
-
-    const updateOption = (i: number, value: string) => {
-      const updated = [...options];
-      updated[i] = value;
-      onChange(updated);
-    };
-
-    const removeOption = (i: number) => {
-      onChange(options.filter((_, idx) => idx !== i));
-    };
-
-    return (
-      <div className="space-y-3">
-        <p>Options</p>
-
-        {options.map((opt, i) => (
-          <div key={i} className="flex items-center gap-3">
-            <Input
-              value={opt}
-              className="max-w-sm"
-              onChange={(e) => updateOption(i, e.target.value)}
-            />
-            <Button type="button" onClick={() => removeOption(i)}>
-              Remove Option
-            </Button>
-          </div>
-        ))}
-
-        <Button type="button" onClick={addOption}>
-          + Add Option
-        </Button>
-      </div>
-    );
-  }
-
+  
   return (
     <div>
       <h1>Create Form</h1>
@@ -122,61 +80,8 @@ const CreateForm = () => {
           />
         </div>
 
-        {form.fields.map((field, index) => (
-          <div key={index} className="border-[#ddd] border-2 space-y-3 p-3">
-            <div className="flex items-center gap-2">
-              <Input
-                placeholder="Field label"
-                value={field.label}
-                onChange={(e) => updateField(index, "label", e.target.value)}
-              />
-
-              <Input
-                placeholder="Field name"
-                value={field.name}
-                onChange={(e) => updateField(index, "name", e.target.value)}
-              />
-
-              <NativeSelect
-                value={field.fieldType}
-                className="w-30"
-                onChange={(e) =>
-                  updateField(index, "fieldType", e.target.value)
-                }
-              >
-                <NativeSelectOption value="text">Text</NativeSelectOption>
-                <NativeSelectOption value="radio">Radio</NativeSelectOption>
-                <NativeSelectOption value="checkbox">
-                  Checkbox
-                </NativeSelectOption>
-                <NativeSelectOption value="select">Select</NativeSelectOption>
-              </NativeSelect>
-              <label className="flex items-center gap-1">
-                <input
-                  type="checkbox"
-                  checked={field.required}
-                  onChange={(e) =>
-                    updateField(index, "required", e.target.checked)
-                  }
-                />
-                Required
-              </label>
-            </div>
-
-            {/* OPTIONS (only when needed) */}
-            {(field.fieldType === "radio" ||
-              field.fieldType === "select" ||
-              (field.fieldType === "checkbox" && field.options)) && (
-              <OptionsEditor
-                options={field.options}
-                onChange={(opts) => updateField(index, "options", opts)}
-              />
-            )}
-          </div>
-        ))}
-
         <div className="flex items-center gap-3">
-          <Button onClick={addField}>Add field</Button>
+          <AddFieldDialogue />
           <Button>Save Form</Button>
         </div>
       </div>
@@ -185,3 +90,56 @@ const CreateForm = () => {
 };
 
 export default CreateForm;
+
+//  {form.fields.map((field, index) => (
+//       <div key={index} className="border-[#ddd] border-2 space-y-3 p-3">
+//         <div className="flex items-center gap-2">
+//           <Input
+//             placeholder="Field label"
+//             value={field.label}
+//             onChange={(e) => updateField(index, "label", e.target.value)}
+//           />
+
+//           <Input
+//             placeholder="Field name"
+//             value={field.name}
+//             onChange={(e) => updateField(index, "name", e.target.value)}
+//           />
+
+//           <NativeSelect
+//             value={field.fieldType}
+//             className="w-30"
+//             onChange={(e) =>
+//               updateField(index, "fieldType", e.target.value)
+//             }
+//           >
+//             <NativeSelectOption value="text">Text</NativeSelectOption>
+//             <NativeSelectOption value="radio">Radio</NativeSelectOption>
+//             <NativeSelectOption value="checkbox">
+//               Checkbox
+//             </NativeSelectOption>
+//             <NativeSelectOption value="select">Select</NativeSelectOption>
+//           </NativeSelect>
+//           <label className="flex items-center gap-1">
+//             <input
+//               type="checkbox"
+//               checked={field.required}
+//               onChange={(e) =>
+//                 updateField(index, "required", e.target.checked)
+//               }
+//             />
+//             Required
+//           </label>
+//         </div>
+
+//         {/* OPTIONS (only when needed) */}
+//         {(field.fieldType === "radio" ||
+//           field.fieldType === "select" ||
+//           (field.fieldType === "checkbox" && field.options)) && (
+//           <OptionsEditor
+//             options={field.options}
+//             onChange={(opts) => updateField(index, "options", opts)}
+//           />
+//         )}
+//       </div>
+//     ))}

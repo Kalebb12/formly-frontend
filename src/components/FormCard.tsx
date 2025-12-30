@@ -6,7 +6,6 @@ const FormCard = ({ form }: { form: FormType }) => {
   const navigate = useNavigate();
   return (
     <div
-      key={form._id}
       className="bg-white p-4 space-y-3 relative rounded shadow"
     >
       <span

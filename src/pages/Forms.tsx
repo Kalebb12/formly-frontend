@@ -41,7 +41,7 @@ const Forms = () => {
         <div className="grid grid-cols-3 gap-4 mt-4">
           <CreateFormModal />
           {data.map((form) => (
-            <FormCard form={form} />
+            <FormCard form={form} key={form._id}/>
           ))}
         </div>
       )}

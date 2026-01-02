@@ -2,7 +2,6 @@ import { DialogDescription } from "@radix-ui/react-dialog";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,

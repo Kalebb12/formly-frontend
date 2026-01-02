@@ -9,23 +9,23 @@ const FormBuilder = ({ form }: { form: FormType }) => {
 
   return (
     <DndContext>
-      <main className="flex flex-col">
-        <nav className="flex items-center justify-between">
-          <span>
-            Form : <b>{form.title}</b>
-          </span>
+        <main className="flex flex-col">
+          <nav className="flex items-center justify-between">
+            <span>
+              Form : <b>{form.title}</b>
+            </span>
 
-          <div className="space-x-2">
-            <Button variant="outline">Preview</Button>
-            <Button variant="outline">Publish</Button>
-            <Button variant="outline">Save</Button>
+            <div className="space-x-2">
+              <Button variant="outline">Preview</Button>
+              <Button variant="outline">Publish</Button>
+              <Button variant="outline">Save</Button>
+            </div>
+          </nav>
+          <div className="grow overflow-y-auto h-200 p-2 relative">
+            <FormDesigner />
           </div>
-        </nav>
-        <div className="grow overflow-y-auto h-200 p-2 relative">
-          <FormDesigner />
-        </div>
-      </main>
-      <DragOverlayWrapper />
+        </main>
+        <DragOverlayWrapper />
     </DndContext>
   );
 };

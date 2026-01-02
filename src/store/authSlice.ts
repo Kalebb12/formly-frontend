@@ -1,14 +1,6 @@
 import type { User } from "@/types/user";
 import { createSlice } from "@reduxjs/toolkit";
 
-// export const getUser = createAsyncThunk(
-//   'auth/getUser',
-//   async () => {
-//     const response = await fetch('/api/auth/me')
-//     const data = await response.json()
-//     return data
-//   },
-// )
 type AuthState = {
   user: null | User,
   isAuthenticated: boolean,

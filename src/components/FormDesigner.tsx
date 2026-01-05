@@ -1,5 +1,5 @@
 import { useDndMonitor, useDroppable, type DragEndEvent } from "@dnd-kit/core";
-import { FormElements } from "./FormElements";
+import { FormElements, type ElementsType } from "./FormElements";
 import SideBarElement from "./SideBarElement";
 import { cn } from "@/lib/utils";
 import { idGenerator } from "@/lib/idGenerator";

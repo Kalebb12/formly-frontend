@@ -9,7 +9,6 @@ import RedirectIfAuthenticated from "./utils/RedirectIfAuthenticated";
 import { useEffect } from "react";
 import { getMe } from "./store/authActions";
 import { useAppDispatch } from "./store/hooks";
-import CreateForm from "./pages/CreateForm";
 import EditForm from "./pages/EditForm";
 
 const App = () => {

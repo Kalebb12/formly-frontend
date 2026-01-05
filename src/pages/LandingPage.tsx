@@ -10,9 +10,11 @@ import {
   Users,
   Sparkles
 } from "lucide-react";
+import { useNavigate } from "react-router";
 
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   return (
     <div>
       {/* Hero Section */}
@@ -55,7 +57,7 @@ const LandingPage = () => {
               transition={{ duration: 0.6, delay: 0.4 }}
               className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
             >
-              <button className="group px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:scale-105 flex items-center space-x-2">
+              <button  onClick={()=> navigate("/forms")} className="group px-8 py-4 rounded-lg bg-primary text-primary-foreground font-semibold hover:bg-primary/90 transition-all hover:scale-105 flex items-center space-x-2">
                 <span>Start Building</span>
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </button>
